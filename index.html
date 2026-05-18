@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="description" content="Nosso tempo de amor — contador romântico" />
+    <title>Nosso Amor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Outfit:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="bg-gradient" aria-hidden="true"></div>
+    <canvas id="hearts-canvas" aria-hidden="true"></canvas>
+
+    <main>
+      <section class="hero" id="inicio">
+        <div class="hero-badge">
+          <span class="heart-icon" aria-hidden="true">♥</span>
+          <span>Nosso amor</span>
+        </div>
+
+        <p class="names" id="couple-names">Pedro & Nicoly</p>
+        <h1 id="headline">Cada segundo ao seu lado</h1>
+        <p class="subtitle" id="subheadline">é um presente que guardo no coração</p>
+
+        <div class="counter-wrapper">
+          <p class="counter-label">Juntos há</p>
+          <div class="counter-grid" role="timer" aria-live="polite" aria-label="Tempo de namoro">
+            <div class="counter-unit">
+              <span class="counter-value" id="years">0</span>
+              <span class="counter-name" id="label-years">anos</span>
+            </div>
+            <div class="counter-unit">
+              <span class="counter-value" id="months">0</span>
+              <span class="counter-name" id="label-months">meses</span>
+            </div>
+            <div class="counter-unit">
+              <span class="counter-value" id="days">0</span>
+              <span class="counter-name" id="label-days">dias</span>
+            </div>
+            <div class="counter-unit">
+              <span class="counter-value" id="hours">00</span>
+              <span class="counter-name" id="label-hours">horas</span>
+            </div>
+            <div class="counter-unit">
+              <span class="counter-value" id="minutes">00</span>
+              <span class="counter-name" id="label-minutes">minutos</span>
+            </div>
+            <div class="counter-unit">
+              <span class="counter-value" id="seconds">00</span>
+              <span class="counter-name" id="label-seconds">segundos</span>
+            </div>
+          </div>
+          <p class="counter-since" id="since-date"></p>
+        </div>
+
+        <div class="floating-gallery" id="floating-gallery" aria-hidden="true"></div>
+      </section>
+
+      <section id="memorias">
+        <header class="memories-header">
+          <h2>Nossas memórias</h2>
+          <p>Momentos que o tempo não apaga</p>
+        </header>
+
+        <div class="carousel-3d">
+          <div class="carousel-ring" id="carousel-ring"></div>
+        </div>
+
+        <div class="polaroid-grid" id="polaroid-grid"></div>
+      </section>
+
+      <section id="videos-section" class="videos-section">
+        <header class="memories-header">
+          <h2>Nossos momentos em vídeo</h2>
+          <p>Para reviver quando a saudade bater</p>
+        </header>
+        <div class="video-grid" id="video-grid"></div>
+      </section>
+
+      <section>
+        <article class="love-letter">
+          <p>
+            Cada dia, hora, minuto e segundo ao seu lado é uma página nova da nossa história.
+            Obrigado por existir e por fazer da minha vida o lugar mais bonito do mundo.
+          </p>
+          <p class="signature" id="signature">Com amor ♥</p>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      Feito com <span class="heart" aria-hidden="true">♥</span> para quem eu amo
+    </footer>
+
+    <div class="fab-controls">
+      <button type="button" class="fab" id="btn-music" title="Tocar música" aria-label="Tocar música de fundo">
+        ♪
+      </button>
+    </div>
+
+    <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Foto ampliada">
+      <button type="button" class="lightbox-close" id="lightbox-close" aria-label="Fechar">&times;</button>
+      <img id="lightbox-img" src="" alt="Foto ampliada" />
+    </div>
+
+    <script src="config.js"></script>
+    <script src="js/main.js"></script>
+  </body>
+</html>
