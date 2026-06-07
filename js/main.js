@@ -138,14 +138,11 @@
 
     const count = CONFIG.photos.length;
     const angleStep = 360 / count;
-    const w = window.innerWidth;
-    const radius =
-      w <= 600 ? Math.min(110, w * 0.26) : w <= 900 ? Math.min(200, w * 0.3) : Math.min(320, w * 0.35);
 
     CONFIG.photos.forEach((photo, i) => {
       const item = document.createElement("div");
       item.className = "carousel-item";
-      item.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
+      item.dataset.index = String(i);
 
       const img = createImage(photo.src, photo.caption);
       item.appendChild(img);
@@ -158,6 +155,27 @@
       }
 
       ring.appendChild(item);
+    });
+
+    function layoutCarousel() {
+      const cardWidth = ring.offsetWidth;
+      if (!cardWidth) return;
+
+      const radius = ((cardWidth / 2) / Math.tan(Math.PI / count)) * 1.08;
+
+      ring.querySelectorAll(".carousel-item").forEach((item) => {
+        const i = Number(item.dataset.index);
+        item.style.transform = `rotateY(${i * angleStep}deg) translateZ(${radius}px)`;
+      });
+    }
+
+    layoutCarousel();
+    requestAnimationFrame(layoutCarousel);
+
+    let resizeTimer;
+    window.addEventListener("resize", () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(layoutCarousel, 150);
     });
 
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
