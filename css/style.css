@@ -236,9 +236,11 @@ section {
   position: relative;
   width: 100%;
   max-width: 700px;
-  height: 180px;
+  min-height: 200px;
   margin: 3rem auto 0;
+  padding: 18px 0 8px;
   perspective: 800px;
+  overflow: visible;
 }
 
 .float-photo {
@@ -255,11 +257,11 @@ section {
   animation: floatPhoto 6s ease-in-out infinite;
 }
 
-.float-photo:nth-child(1) { left: 5%; top: 20%; animation-delay: 0s; --rot: -12deg; }
-.float-photo:nth-child(2) { left: 28%; top: 0; animation-delay: -1.5s; --rot: 5deg; }
-.float-photo:nth-child(3) { left: 50%; top: 30%; animation-delay: -3s; --rot: -3deg; }
-.float-photo:nth-child(4) { left: 72%; top: 5%; animation-delay: -4.5s; --rot: 10deg; }
-.float-photo:nth-child(5) { left: 88%; top: 35%; animation-delay: -2s; --rot: -8deg; }
+.float-photo:nth-child(1) { left: 5%; top: 22%; animation-delay: 0s; --rot: -12deg; }
+.float-photo:nth-child(2) { left: 28%; top: 8%; animation-delay: -1.5s; --rot: 5deg; }
+.float-photo:nth-child(3) { left: 50%; top: 32%; animation-delay: -3s; --rot: -3deg; }
+.float-photo:nth-child(4) { left: 72%; top: 10%; animation-delay: -4.5s; --rot: 10deg; }
+.float-photo:nth-child(5) { left: 86%; top: 36%; animation-delay: -2s; --rot: -8deg; }
 
 /* ── Seção memórias ──────────────────────────────────────────── */
 .memories-header {
@@ -616,7 +618,7 @@ footer .heart {
     transform: translateY(0) rotate(var(--rot, 0deg));
   }
   50% {
-    transform: translateY(-15px) rotate(calc(var(--rot, 0deg) + 3deg));
+    transform: translateY(-8px) rotate(calc(var(--rot, 0deg) + 3deg));
   }
 }
 
@@ -684,8 +686,9 @@ footer .heart {
   }
 
   .floating-gallery {
-    height: 140px;
-    overflow: hidden;
+    min-height: 168px;
+    padding: 20px 0 12px;
+    overflow: visible;
     max-width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -695,9 +698,11 @@ footer .heart {
     width: 64px;
   }
 
-  .float-photo:nth-child(5) {
-    left: 78%;
-  }
+  .float-photo:nth-child(1) { left: 2%; top: 28%; }
+  .float-photo:nth-child(2) { left: 22%; top: 12%; }
+  .float-photo:nth-child(3) { left: 42%; top: 34%; }
+  .float-photo:nth-child(4) { left: 62%; top: 14%; }
+  .float-photo:nth-child(5) { left: 78%; top: 30%; }
 
   .carousel-3d {
     height: min(62vh, 420px);
