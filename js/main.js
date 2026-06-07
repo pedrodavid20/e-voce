@@ -200,6 +200,11 @@
       video.controls = true;
       video.playsInline = true;
       video.preload = "metadata";
+      video.muted = true;
+      video.defaultMuted = true;
+      video.addEventListener("volumechange", () => {
+        video.muted = true;
+      });
       if (vid.poster) video.poster = vid.poster;
 
       figure.appendChild(video);
@@ -252,22 +257,36 @@
       return;
     }
 
-    const audio = new Audio(CONFIG.audio);
+    const audio = document.createElement("audio");
+    audio.src = CONFIG.audio;
     audio.loop = true;
     audio.volume = 0.4;
+    audio.preload = "auto";
+    audio.playsInline = true;
+    audio.setAttribute("playsinline", "");
+    document.body.appendChild(audio);
+
     let playing = false;
 
-    btn.addEventListener("click", () => {
+    btn.addEventListener("click", async () => {
       if (playing) {
         audio.pause();
         btn.textContent = "♪";
         btn.title = "Tocar música";
-      } else {
-        audio.play().catch(() => {});
+        playing = false;
+        return;
+      }
+
+      try {
+        await audio.play();
         btn.textContent = "♫";
         btn.title = "Pausar música";
+        playing = true;
+      } catch {
+        btn.textContent = "♪";
+        btn.title = "Tocar música";
+        playing = false;
       }
-      playing = !playing;
     });
   }
 

@@ -295,11 +295,6 @@ section {
   height: min(380px, 55vh);
   transform-style: preserve-3d;
   animation: spinRing 40s linear infinite;
-  animation-play-state: running;
-}
-
-.carousel-3d:hover .carousel-ring {
-  animation-play-state: paused;
 }
 
 .carousel-item {

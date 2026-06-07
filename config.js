@@ -20,7 +20,7 @@ const CONFIG = {
   // Fotos — coloque os arquivos em assets/photos/ e liste aqui
   // legendas opcionais para cada foto
   photos: [
-    { src: "assets/photos/foto1.JPEG", caption: "O nosso primeiro sorriso juntos" },
+    { src: "assets/photos/foto1.JPEG", caption: "Seu sorriso ilumina meu mundo" },
     { src: "assets/photos/foto2.JPEG", caption: "Um dia que nunca esqueço" },
     { src: "assets/photos/foto3.JPEG", caption: "Você ilumina tudo" },
     { src: "assets/photos/foto4.JPEG", caption: "Minha pessoa favorita" },
@@ -31,7 +31,7 @@ const CONFIG = {
   // Vídeos opcionais — coloque em assets/videos/
   // deixe videos: [] se não quiser vídeo ainda
   videos: [
-    { src: "assets/videos/primeiro-encontro.mp4", poster: "assets/photos/foto7.jpg", caption: "Lembra do primeiro encontro?" },
+    { src: "assets/videos/primeiro-encontro.MP4", poster: "assets/photos/foto7.JPEG", caption: "Lembra do primeiro encontro?" },
   ],
 
   // Música de fundo opcional (coloque em assets/audio/)
