@@ -294,7 +294,7 @@ section {
   width: min(280px, 70vw);
   height: min(380px, 55vh);
   transform-style: preserve-3d;
-  animation: spinRing 40s linear infinite;
+  will-change: transform;
 }
 
 .carousel-item {
@@ -305,18 +305,23 @@ section {
   backface-visibility: hidden;
   border: 2px solid rgba(255, 255, 255, 0.15);
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4);
-  transition: box-shadow 0.3s ease;
+  transition: box-shadow 0.3s ease, border-color 0.3s ease;
 }
 
 .carousel-item img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 8s ease;
+  transition: filter 0.3s ease;
+}
+
+.carousel-item:hover {
+  border-color: rgba(232, 164, 184, 0.45);
+  box-shadow: 0 24px 56px rgba(232, 164, 184, 0.25);
 }
 
 .carousel-item:hover img {
-  transform: scale(1.08);
+  filter: brightness(1.08);
 }
 
 .carousel-caption {
@@ -609,11 +614,6 @@ footer .heart {
   }
 }
 
-@keyframes spinRing {
-  from { transform: rotateY(0deg); }
-  to { transform: rotateY(360deg); }
-}
-
 /* ── Responsivo ──────────────────────────────────────────────── */
 @media (max-width: 900px) {
   .counter-grid {
@@ -744,9 +744,5 @@ footer .heart {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
-  }
-
-  .carousel-ring {
-    animation: none;
   }
 }

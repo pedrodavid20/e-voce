@@ -159,6 +159,23 @@
 
       ring.appendChild(item);
     });
+
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
+    let angle = 0;
+    let lastTime = null;
+    const rotationMs = 40000;
+
+    function spinCarousel(now) {
+      if (lastTime !== null) {
+        angle = (angle + ((now - lastTime) / rotationMs) * 360) % 360;
+        ring.style.transform = `rotateY(${angle}deg)`;
+      }
+      lastTime = now;
+      requestAnimationFrame(spinCarousel);
+    }
+
+    requestAnimationFrame(spinCarousel);
   }
 
   function initPolaroids() {
