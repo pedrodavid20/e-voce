@@ -231,14 +231,14 @@ section {
   font-weight: 500;
 }
 
-/* ── Galeria flutuante (hero) ────────────────────────────────── */
+/* ── Galeria flutuante (entre hero e memórias) ───────────────── */
 .floating-gallery {
   position: relative;
   width: 100%;
   max-width: 700px;
   min-height: 200px;
-  margin: 3rem auto 0;
-  padding: 18px 0 8px;
+  margin: 0 auto;
+  padding: 24px 1.25rem 16px;
   perspective: 800px;
   overflow: visible;
 }
@@ -644,15 +644,24 @@ footer .heart {
     max-width: 100%;
   }
 
-  main,
-  section {
-    overflow-x: clip;
+  main {
     max-width: 100%;
   }
 
   section {
     padding-left: 1rem;
     padding-right: 1rem;
+  }
+
+  .hero {
+    min-height: auto;
+    justify-content: flex-start;
+    padding-top: 1.5rem;
+    padding-bottom: 1.25rem;
+  }
+
+  #memorias {
+    padding-top: 0.75rem;
   }
 
   body {
@@ -686,23 +695,22 @@ footer .heart {
   }
 
   .floating-gallery {
-    min-height: 168px;
-    padding: 20px 0 12px;
+    min-height: 110px;
+    padding: 28px 0.75rem 20px;
+    margin: 0 auto 0.5rem;
     overflow: visible;
     max-width: 100%;
-    margin-left: auto;
-    margin-right: auto;
   }
 
   .float-photo {
     width: 64px;
   }
 
-  .float-photo:nth-child(1) { left: 2%; top: 28%; }
-  .float-photo:nth-child(2) { left: 22%; top: 12%; }
-  .float-photo:nth-child(3) { left: 42%; top: 34%; }
-  .float-photo:nth-child(4) { left: 62%; top: 14%; }
-  .float-photo:nth-child(5) { left: 78%; top: 30%; }
+  .float-photo:nth-child(1) { left: 2%; top: 38%; }
+  .float-photo:nth-child(2) { left: 22%; top: 22%; }
+  .float-photo:nth-child(3) { left: 42%; top: 44%; }
+  .float-photo:nth-child(4) { left: 62%; top: 24%; }
+  .float-photo:nth-child(5) { left: 78%; top: 40%; }
 
   .carousel-3d {
     height: min(62vh, 420px);
