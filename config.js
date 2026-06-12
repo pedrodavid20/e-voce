@@ -3,9 +3,25 @@
 // ═══════════════════════════════════════════════════════════════
 
 const CONFIG = {
-  // Data em que começaram a namorar (ano, mês-1, dia, hora, minuto, segundo)
-  // Exemplo: 14 de fevereiro de 2024 às 20:30
-  startDate: new Date(2022, 9, 26, 20, 12, 0),
+  // Marcos da história — o visitante escolhe qual data contar
+  // (ano, mês-1, dia, hora, minuto, segundo)
+  milestones: [
+    {
+      id: "primeiro-encontro",
+      label: "Primeiro encontro",
+      date: new Date(2022, 9, 26, 20, 12, 0),
+      counterLabel: "Juntos desde o primeiro encontro",
+    },
+    {
+      id: "pedido-namoro",
+      label: "Pedido de namoro",
+      date: new Date(2023, 0, 14, 17, 0, 0),
+      counterLabel: "Juntos desde o pedido de namoro",
+    },
+  ],
+
+  // Marco exibido ao abrir a página (id de um item acima)
+  defaultMilestone: "primeiro-encontro",
 
   // Nomes que aparecem na página
   names: {
