@@ -29,8 +29,15 @@
         <p class="subtitle" id="subheadline">é um presente que guardo no coração</p>
 
         <div class="counter-wrapper">
-          <p class="counter-label">Juntos há</p>
-          <div class="counter-grid" role="timer" aria-live="polite" aria-label="Tempo de namoro">
+          <div
+            class="milestone-picker"
+            id="milestone-picker"
+            role="tablist"
+            aria-label="Escolher marco da história"
+          ></div>
+          <div class="counter-display" id="counter-display">
+            <p class="counter-label" id="counter-label">Juntos há</p>
+            <div class="counter-grid" role="timer" aria-live="polite" aria-label="Tempo de namoro">
             <div class="counter-unit">
               <span class="counter-value" id="years">0</span>
               <span class="counter-name" id="label-years">anos</span>
@@ -55,8 +62,9 @@
               <span class="counter-value" id="seconds">00</span>
               <span class="counter-name" id="label-seconds">segundos</span>
             </div>
+            </div>
+            <p class="counter-since" id="since-date"></p>
           </div>
-          <p class="counter-since" id="since-date"></p>
         </div>
       </section>
 

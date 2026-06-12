@@ -55,8 +55,157 @@
     return value === 1 ? singular : plural;
   }
 
-  function updateCounter() {
-    const elapsed = getElapsed(CONFIG.startDate);
+  const MILESTONE_STORAGE_KEY = "e-voce-milestone";
+
+  let activeMilestoneId = CONFIG.defaultMilestone;
+  let milestoneTransitionLock = false;
+
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  function updateMilestonePickerUI(milestone) {
+    document.querySelectorAll(".milestone-picker__btn").forEach((btn) => {
+      const isActive = btn.dataset.milestone === milestone.id;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-selected", isActive ? "true" : "false");
+      btn.tabIndex = isActive ? 0 : -1;
+    });
+
+    const indicator = document.getElementById("milestone-indicator");
+    const activeBtn = document.querySelector(`.milestone-picker__btn[data-milestone="${milestone.id}"]`);
+    if (indicator && activeBtn) {
+      indicator.style.width = `${activeBtn.offsetWidth}px`;
+      indicator.style.transform = `translateX(${activeBtn.offsetLeft}px)`;
+    }
+  }
+
+  function applyMilestoneContent(milestone) {
+    const labelEl = document.getElementById("counter-label");
+    if (labelEl) labelEl.textContent = milestone.counterLabel;
+
+    const sinceEl = document.getElementById("since-date");
+    if (sinceEl) {
+      sinceEl.innerHTML = `desde <strong>${formatSince(milestone.date)}</strong>`;
+    }
+
+    updateCounter(true);
+  }
+
+  function playMilestoneTransition(milestone, onMidpoint) {
+    const display = document.getElementById("counter-display");
+    const wrapper = document.querySelector(".counter-wrapper");
+
+    if (!display || prefersReducedMotion()) {
+      onMidpoint();
+      applyMilestoneContent(milestone);
+      updateMilestonePickerUI(milestone);
+      return;
+    }
+
+    milestoneTransitionLock = true;
+    display.classList.remove("is-entering");
+    display.classList.add("is-exiting");
+    wrapper?.classList.add("is-milestone-switching");
+
+    window.setTimeout(() => {
+      onMidpoint();
+      applyMilestoneContent(milestone);
+      updateMilestonePickerUI(milestone);
+
+      display.classList.remove("is-exiting");
+      void display.offsetWidth;
+      display.classList.add("is-entering");
+
+      display.querySelectorAll(".counter-unit").forEach((unit, index) => {
+        unit.style.setProperty("--unit-delay", `${index * 0.07}s`);
+      });
+
+      window.setTimeout(() => {
+        display.classList.remove("is-entering");
+        wrapper?.classList.remove("is-milestone-switching");
+        display.querySelectorAll(".counter-unit").forEach((unit) => {
+          unit.style.removeProperty("--unit-delay");
+        });
+        milestoneTransitionLock = false;
+      }, 750);
+    }, 380);
+  }
+
+  function setActiveMilestone(id, instant = false) {
+    const milestone = getMilestone(id);
+    if (!milestone) return;
+    if (milestone.id === activeMilestoneId && !instant) return;
+    if (milestoneTransitionLock) return;
+
+    const applyState = () => {
+      activeMilestoneId = milestone.id;
+      localStorage.setItem(MILESTONE_STORAGE_KEY, milestone.id);
+    };
+
+    if (instant || prefersReducedMotion()) {
+      applyState();
+      applyMilestoneContent(milestone);
+      updateMilestonePickerUI(milestone);
+      return;
+    }
+
+    playMilestoneTransition(milestone, applyState);
+  }
+
+  function initMilestonePicker() {
+    const picker = document.getElementById("milestone-picker");
+    if (!picker || !CONFIG.milestones?.length) return;
+
+    if (CONFIG.milestones.length === 1) {
+      picker.hidden = true;
+      setActiveMilestone(CONFIG.milestones[0].id, true);
+      return;
+    }
+
+    const saved = localStorage.getItem(MILESTONE_STORAGE_KEY);
+    if (saved && CONFIG.milestones.some((m) => m.id === saved)) {
+      activeMilestoneId = saved;
+    }
+
+    CONFIG.milestones.forEach((milestone) => {
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "milestone-picker__btn";
+      btn.dataset.milestone = milestone.id;
+      btn.textContent = milestone.label;
+      btn.setAttribute("role", "tab");
+      btn.addEventListener("click", () => setActiveMilestone(milestone.id));
+      picker.appendChild(btn);
+    });
+
+    const indicator = document.createElement("span");
+    indicator.className = "milestone-picker__indicator";
+    indicator.id = "milestone-indicator";
+    indicator.setAttribute("aria-hidden", "true");
+    picker.appendChild(indicator);
+
+    setActiveMilestone(activeMilestoneId, true);
+
+    requestAnimationFrame(() => {
+      updateMilestonePickerUI(getActiveMilestone());
+    });
+
+    window.addEventListener("resize", () => {
+      updateMilestonePickerUI(getActiveMilestone());
+    });
+  }
+
+  function getMilestone(id) {
+    return CONFIG.milestones.find((m) => m.id === id) || CONFIG.milestones[0];
+  }
+
+  function getActiveMilestone() {
+    return getMilestone(activeMilestoneId);
+  }
+
+  function updateCounter(forceTick = false) {
+    const elapsed = getElapsed(getActiveMilestone().date);
     const units = [
       { id: "years", value: elapsed.years, pad: false, labelId: "label-years", singular: "ano", plural: "anos" },
       { id: "months", value: elapsed.months, pad: false, labelId: "label-months", singular: "mês", plural: "meses" },
@@ -71,7 +220,7 @@
       if (!el) return;
 
       const display = usePad ? pad(value) : String(value);
-      if (el.textContent !== display) {
+      if (forceTick || el.textContent !== display) {
         el.textContent = display;
         el.classList.remove("tick");
         void el.offsetWidth;
@@ -89,16 +238,12 @@
     const namesEl = document.getElementById("couple-names");
     const headlineEl = document.getElementById("headline");
     const subEl = document.getElementById("subheadline");
-    const sinceEl = document.getElementById("since-date");
 
     if (namesEl) {
       namesEl.textContent = `${CONFIG.names.you} & ${CONFIG.names.partner}`;
     }
     if (headlineEl) headlineEl.textContent = CONFIG.headline;
     if (subEl) subEl.textContent = CONFIG.subheadline;
-    if (sinceEl) {
-      sinceEl.innerHTML = `desde <strong>${formatSince(CONFIG.startDate)}</strong>`;
-    }
 
     document.title = `${CONFIG.names.you} ♥ ${CONFIG.names.partner}`;
   }
@@ -393,6 +538,7 @@
 
   function init() {
     initHero();
+    initMilestonePicker();
     updateCounter();
     setInterval(updateCounter, 1000);
     initFloatingGallery();
